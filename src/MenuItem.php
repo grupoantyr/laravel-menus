@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
  * @property array attributes
  * @property bool active
  * @property int order
+ * @property string target
  */
 class MenuItem implements ArrayableContract
 {
@@ -52,6 +53,7 @@ class MenuItem implements ArrayableContract
         'active',
         'order',
         'hideWhen',
+        'target'
     );
 
     /**
@@ -79,7 +81,7 @@ class MenuItem implements ArrayableContract
      *
      * @return array
      */
-    protected static function setIconAttribute(array $properties)
+    protected static function setAttributes(array $properties)
     {
         $icon = Arr::get($properties, 'attributes.icon');
         if (!is_null($icon)) {
@@ -87,7 +89,15 @@ class MenuItem implements ArrayableContract
 
             Arr::forget($properties, 'attributes.icon');
 
-            return $properties;
+            //return $properties;
+        }
+        $target = Arr::get($properties, 'attributes.target');
+        if (!is_null($target)) {
+            $properties['target'] = $target;
+
+            Arr::forget($properties, 'attributes.target');
+
+            //return $properties;
         }
 
         return $properties;
@@ -114,7 +124,7 @@ class MenuItem implements ArrayableContract
      */
     public static function make(array $properties)
     {
-        $properties = self::setIconAttribute($properties);
+        $properties = self::setAttributes($properties);
 
         return new static($properties);
     }
@@ -335,6 +345,16 @@ class MenuItem implements ArrayableContract
         return url($this->url);
     }
 
+
+    public function getTarget()
+    {
+        if(!empty($this->target)){
+            return 'target="'.$this->target.'"';
+        }else{
+            return null;
+        }
+    }
+
     /**
      * Get request url.
      *
@@ -352,16 +372,13 @@ class MenuItem implements ArrayableContract
      *
      * @return string
      */
-    public function getIcon($default = null)
+    public function getIcon()
     {
         if ($this->icon !== null && $this->icon !== '') {
-            return '<i class="' . $this->icon . '"></i>';
+            return '<i class="nav-icon ' . $this->icon . '"></i>';
+        }else{
+            return '<i class="nav-icon far fa-circle"></i>';
         }
-        if ($default === null) {
-            return $default;
-        }
-
-        return '<i class="' . $default . '"></i>';
     }
 
     /**
