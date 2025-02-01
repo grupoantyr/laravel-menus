@@ -24,7 +24,7 @@
     "illuminate/support": "^11.0",
     "illuminate/config": "^11.0",
     "illuminate/view": "^11.0",
-    "lampy27/html": "dev-laravel_11.x"
+    "laravelcollective/html": "dev-laravel_11"
   },
   "require-dev": {
     "phpunit/phpunit": "^10.0",
@@ -35,7 +35,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/Lampy27/html"
+      "url": "https://github.com/grupoantyr/laravelcollective-html"
     }
   ],
   "autoload": {
